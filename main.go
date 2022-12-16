@@ -7,10 +7,10 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"time"
 )
 
-func main() {
-	sum := 0
+func qa(s *int) int {
 
 	f, err := os.Open("problems.csv")
 	if err != nil {
@@ -32,21 +32,29 @@ func main() {
 		}
 
 		fmt.Printf("%+v\n", line[0])
-		//fmt.Printf("var1 = %T\n", line)
-
-		// for l, _ := range line {
-		// 	fmt.Println(l)
-		// }
 
 		fmt.Scan(&i)
 		resultToInt, err := strconv.Atoi(line[1])
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		if i == resultToInt {
-			sum++
+			*s++
 		}
 
 	}
 
-	fmt.Println(sum)
+	return *s
+} //end qa
 
+func main() {
+	sum := 0
+	var total *int = &sum
+
+	go qa(total)
+
+	time.Sleep(5 * time.Second)
+
+	fmt.Println("time is over: of 13 questions you answered", *total, "correct")
 }
